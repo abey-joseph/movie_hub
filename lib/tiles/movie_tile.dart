@@ -10,7 +10,7 @@ class MovieTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 150,
-      margin: EdgeInsets.symmetric(horizontal: 8.0),
+      margin: EdgeInsets.all(7.0),
       child: Card(
         elevation: 5,
         shape: RoundedRectangleBorder(

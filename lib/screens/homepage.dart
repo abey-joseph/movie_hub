@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Colors.yellow[50],
+      backgroundColor: Colors.white,
       //extendBodyBehindAppBar: true,
       body: Container(
         decoration: const BoxDecoration(
