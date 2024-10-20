@@ -80,19 +80,27 @@ class HomePage extends StatelessWidget {
             const CatHeadText(
               text: "Top Trending",
             ),
-            CatMovieList(),
+            const CatMovieList(
+              tag: '1',
+            ),
             const CatHeadText(
               text: "Up Comming",
             ),
-            CatMovieList(),
+            const CatMovieList(
+              tag: '2',
+            ),
             const CatHeadText(
               text: "For You",
             ),
-            CatMovieList(),
+            const CatMovieList(
+              tag: '3',
+            ),
             const CatHeadText(
               text: "Top Rated",
             ),
-            CatMovieList(),
+            const CatMovieList(
+              tag: '4',
+            ),
           ],
         ),
       ),

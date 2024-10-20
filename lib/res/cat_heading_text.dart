@@ -13,7 +13,8 @@ class CatHeadText extends StatelessWidget {
         child: Text(
           text,
           style: GoogleFonts.poppins(
-              textStyle: TextStyle(fontSize: 21, fontWeight: FontWeight.bold)),
+              textStyle:
+                  const TextStyle(fontSize: 21, fontWeight: FontWeight.bold)),
         ),
       ),
     );

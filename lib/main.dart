@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_hub/res/colors.dart';
+//import 'package:movie_hub/res/colors.dart';
 import 'package:movie_hub/screens/homepage.dart';
 
 void main() {
@@ -7,6 +7,8 @@ void main() {
 }
 
 class MovieHub extends StatelessWidget {
+  const MovieHub({super.key});
+
   //const MovieHub({super.key});
 
   @override
