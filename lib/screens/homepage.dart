@@ -70,10 +70,13 @@ class HomePage extends StatelessWidget {
                   fit: StackFit.expand,
                   children: [
                     Positioned.fill(
-                      child: CustomPaint(
-                        painter: WaveStripPainter(
-                            greenLighter: Colors.white,
-                            greenLight: AppColors.greenPrimary),
+                      child: Hero(
+                        tag: "a",
+                        child: CustomPaint(
+                          painter: WaveStripPainter(
+                              greenLighter: Colors.white,
+                              greenLight: AppColors.greenPrimary),
+                        ),
                       ),
                     ),
                   ],
