@@ -40,7 +40,10 @@ class HomePage extends StatelessWidget {
                   ),
                 )
               ],
+              //forceMaterialTransparency: true,
               backgroundColor: Colors.white,
+              elevation: 0,
+              surfaceTintColor: Colors.transparent,
               //shadowColor: Colors.transparent,
               leading: const Padding(
                 padding: EdgeInsets.only(left: 20),

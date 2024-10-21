@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'package:movie_hub/res/colors.dart';
 import 'package:movie_hub/screens/homepage.dart';
+import 'package:movie_hub/screens/splash_screen.dart';
 
 void main() {
   runApp(MovieHub());
@@ -16,7 +17,7 @@ class MovieHub extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.lightGreen),
-      home: const HomePage(),
+      home: const SplashScreen(),
     );
   }
 }
