@@ -4,21 +4,16 @@ import 'package:movie_hub/screens/movie_detail.dart';
 //import 'package:movie_hub/res/colors.dart';
 
 class MovieTile extends StatelessWidget {
-  final String imageUrl;
-
-  const MovieTile({super.key, required this.imageUrl});
+  //final String imageUrl;
+  final Movie movie;
+  const MovieTile({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return MovieDetailPage(
-            movie: Movie(
-                "Deadpool And Wolverine",
-                "https://media.themoviedb.org/t/p/w220_and_h330_face/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
-                "https://image.tmdb.org/t/p/original/lD4mhKoiaXpKrtBEjACeWgz7w0O.jpg"),
-          );
+          return MovieDetailPage(movie: movie);
         }));
       },
       child: Container(
@@ -33,7 +28,7 @@ class MovieTile extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: Image.network(
-              imageUrl,
+              movie.poster,
               fit: BoxFit.cover,
             ),
           ),

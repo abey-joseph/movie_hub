@@ -126,7 +126,8 @@ class MovieDetailPage extends StatelessWidget {
           ),
           Positioned(
               top: 160,
-              child: Hero(tag: "1", child: MovieTile(imageUrl: movie.poster)))
+              child: Hero(
+                  tag: "1", child: MovieTileInDetail(imageUrl: movie.poster)))
         ],
       )),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_hub/functions/tmdb_functions.dart';
 import 'package:movie_hub/res/colors.dart';
 import 'package:movie_hub/screens/homepage.dart';
 import 'package:movie_hub/screens/login_screen.dart';
@@ -16,6 +17,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    final movieService = MovieService();
+    movieService.fetchAllMovies();
     checkLogin(); // Call checkLogin in initState
   }
 

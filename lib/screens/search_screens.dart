@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
+
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   List<String> items = [
     "Apple",
     "Banana",
@@ -43,7 +45,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search'),
+        title: const Text('Search'),
       ),
       body: Column(
         children: [
@@ -56,7 +58,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
               ),
             ),
           ),
