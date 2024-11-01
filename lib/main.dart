@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 //import 'package:movie_hub/res/colors.dart';
 import 'package:movie_hub/screens/splash_screen.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const MovieHub());
 }
 
