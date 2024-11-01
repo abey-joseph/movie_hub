@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'dart:ui';
+//import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:movie_hub/res/app_bar_pattern.dart';
@@ -7,8 +7,10 @@ import 'package:movie_hub/res/colors.dart';
 import 'package:movie_hub/screens/homepage.dart';
 
 class LoginScreen extends StatelessWidget {
-  final Color lightGreen = Color(0xFFA8E6CF); // Light green
-  final Color lightYellow = Color(0xFFFFF9C4); // Light yellow
+  final Color lightGreen = const Color(0xFFA8E6CF); // Light green
+  final Color lightYellow = const Color(0xFFFFF9C4);
+
+  const LoginScreen({super.key}); // Light yellow
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class LoginScreen extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   AppColors.greenLight,
@@ -33,13 +35,13 @@ class LoginScreen extends StatelessWidget {
                 // Animated top part
                 Expanded(
                   flex: 2,
-                  child: Container(
+                  child: SizedBox(
                     width: double.infinity,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        AnimatedLock(),
-                        SizedBox(height: 16.0),
+                        const AnimatedLock(),
+                        const SizedBox(height: 16.0),
                         Text(
                           'Welcome Back!',
                           style: TextStyle(
@@ -57,55 +59,55 @@ class LoginScreen extends StatelessWidget {
                   flex: 3,
                   child: Container(
                     color: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: 32.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 32.0),
                     child: ListView(
                       children: [
-                        SizedBox(height: 40.0),
+                        const SizedBox(height: 40.0),
                         // Email TextField
                         TextField(
                           decoration: InputDecoration(
                             labelText: 'Email',
-                            prefixIcon: Icon(Icons.email,
+                            prefixIcon: const Icon(Icons.email,
                                 color: AppColors.greenPrimary),
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: lightGreen),
                             ),
                           ),
                         ),
-                        SizedBox(height: 16.0),
+                        const SizedBox(height: 16.0),
                         // Password TextField
                         TextField(
                           decoration: InputDecoration(
                             labelText: 'Password',
-                            prefixIcon:
-                                Icon(Icons.lock, color: AppColors.greenPrimary),
+                            prefixIcon: const Icon(Icons.lock,
+                                color: AppColors.greenPrimary),
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: lightGreen),
                             ),
                           ),
                           obscureText: true,
                         ),
-                        SizedBox(height: 32.0),
+                        const SizedBox(height: 32.0),
                         // Login Button
                         ElevatedButton(
                           onPressed: () {
                             // Handle login logic
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => HomePage()));
+                                builder: (context) => const HomePage()));
                           },
-                          child: Text('Login'),
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
                             backgroundColor: AppColors.greenPrimary,
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 80.0, vertical: 16.0),
-                            textStyle: TextStyle(fontSize: 18.0),
+                            textStyle: const TextStyle(fontSize: 18.0),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0),
                             ),
                           ),
+                          child: const Text('Login'),
                         ),
-                        SizedBox(height: 16.0),
+                        const SizedBox(height: 16.0),
                         // Forgot Password
                         TextButton(
                           onPressed: () {
@@ -134,7 +136,7 @@ class LoginScreen extends StatelessWidget {
           ),
           Positioned(
             bottom: -207,
-            child: Container(
+            child: SizedBox(
               height: 300,
               child: Hero(
                 tag: "a",
@@ -153,6 +155,8 @@ class LoginScreen extends StatelessWidget {
 }
 
 class AnimatedLock extends StatefulWidget {
+  const AnimatedLock({super.key});
+
   @override
   _AnimatedLockState createState() => _AnimatedLockState();
 }
@@ -168,7 +172,7 @@ class _AnimatedLockState extends State<AnimatedLock>
     super.initState();
 
     _controller = AnimationController(
-      duration: Duration(seconds: 4),
+      duration: const Duration(seconds: 4),
       vsync: this,
     )..repeat();
 
@@ -217,7 +221,7 @@ class CustomLock extends StatelessWidget {
   final Color color;
   final double size;
 
-  CustomLock({required this.color, required this.size});
+  const CustomLock({super.key, required this.color, required this.size});
 
   @override
   Widget build(BuildContext context) {

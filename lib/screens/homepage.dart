@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_hub/res/app_bar_pattern.dart';
 import 'package:movie_hub/res/cat_heading_text.dart';
 import 'package:movie_hub/res/colors.dart';
+import 'package:movie_hub/screens/search_screens.dart';
 import 'package:movie_hub/tiles/cat_movie_list.dart';
 
 class HomePage extends StatelessWidget {
@@ -30,13 +31,17 @@ class HomePage extends StatelessWidget {
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
-              actions: const [
+              actions: [
                 Padding(
                   padding: EdgeInsets.only(right: 14),
-                  child: Icon(
-                    Icons.search,
-                    size: 35,
-                    color: Colors.black,
+                  child: IconButton(
+                    icon: Icon(Icons.search, size: 35, color: Colors.black),
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return SearchScreen();
+                      }));
+                    },
                   ),
                 )
               ],

@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   // No need to pass context explicitly, use mounted to check if widget is still active.
   checkLogin() async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
 
     // Ensure the widget is still in the tree before proceeding
     if (!mounted) return;
@@ -32,18 +32,18 @@ class _SplashScreenState extends State<SplashScreen> {
 
     if (login) {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => const HomePage()),
       );
     } else {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => LoginScreen()),
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: AppColors.greenLight,
       body: Center(
         child:

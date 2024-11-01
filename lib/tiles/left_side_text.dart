@@ -11,7 +11,7 @@ class LeftSideText extends StatelessWidget {
         child: SizedBox(
             width: MediaQuery.of(context).size.width - 164,
             child: Padding(
-                padding: EdgeInsets.only(top: 11, left: 10),
+                padding: const EdgeInsets.only(top: 11, left: 10),
                 child: Text(text))));
   }
 }

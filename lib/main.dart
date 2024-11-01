@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 //import 'package:movie_hub/res/colors.dart';
-import 'package:movie_hub/screens/homepage.dart';
 import 'package:movie_hub/screens/splash_screen.dart';
 
 void main() {
-  runApp(MovieHub());
+  runApp(const MovieHub());
 }
 
 class MovieHub extends StatelessWidget {

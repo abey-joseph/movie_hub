@@ -8,7 +8,7 @@ class Rating extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
-        padding: EdgeInsets.only(top: 11),
+        padding: const EdgeInsets.only(top: 11),
         width: MediaQuery.of(context).size.width - 164,
         height: 30,
         child: Row(
