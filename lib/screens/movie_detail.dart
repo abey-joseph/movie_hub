@@ -9,7 +9,8 @@ import 'package:movie_hub/tiles/rating.dart';
 
 class MovieDetailPage extends StatelessWidget {
   final Movie movie;
-  const MovieDetailPage({super.key, required this.movie});
+  final String tag;
+  const MovieDetailPage({super.key, required this.movie, required this.tag});
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +128,7 @@ class MovieDetailPage extends StatelessWidget {
           Positioned(
               top: 160,
               child: Hero(
-                  tag: "1", child: MovieTileInDetail(imageUrl: movie.poster)))
+                  tag: tag, child: MovieTileInDetail(imageUrl: movie.poster)))
         ],
       )),
     );

@@ -6,14 +6,18 @@ import 'package:movie_hub/screens/movie_detail.dart';
 class MovieTile extends StatelessWidget {
   //final String imageUrl;
   final Movie movie;
-  const MovieTile({super.key, required this.movie});
+  final String tag;
+  const MovieTile({super.key, required this.movie, required this.tag});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return MovieDetailPage(movie: movie);
+          return MovieDetailPage(
+            movie: movie,
+            tag: tag,
+          );
         }));
       },
       child: Container(

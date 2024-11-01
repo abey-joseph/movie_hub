@@ -60,6 +60,7 @@ class MovieService {
       final movies = data['results']
           .take(10) // Limit to 10 movies per category
           .map((movie) => {
+                'id': movie['id'],
                 'title': movie['title'],
                 'posterPath':
                     'https://image.tmdb.org/t/p/w500${movie['poster_path']}',
