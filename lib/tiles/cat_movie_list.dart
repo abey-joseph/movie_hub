@@ -29,7 +29,7 @@ class CatMovieList extends StatelessWidget {
             height: 234,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: movieList.length,
+              itemCount: 10,
               itemBuilder: (context, index) {
                 return Hero(
                   tag: "$tag$index", // Unique tag based on the movie ID

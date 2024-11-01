@@ -128,6 +128,20 @@ class HomePage extends StatelessWidget {
                     tag: '4',
                     movieList: movieService.topRatedList,
                   ),
+                  const CatHeadText(
+                    text: "Up Comming",
+                  ),
+                  CatMovieList(
+                    tag: '5',
+                    movieList: movieService.upComingList,
+                  ),
+                  const CatHeadText(
+                    text: "Now Playing",
+                  ),
+                  CatMovieList(
+                    tag: '6',
+                    movieList: movieService.nowPlayingList,
+                  ),
                 ],
               ),
             ),

@@ -32,11 +32,16 @@ class MovieDetailPage extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 10),
-                child: Image.network(
-                  height: 230,
-                  movie.backDrop,
-                  fit: BoxFit.cover,
-                ),
+                child: movie.backDrop != null && movie.backDrop!.isNotEmpty
+                    ? Image.network(
+                        movie.backDrop,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          // Display a placeholder widget if the image fails to load
+                          return _buildFallbackWidget();
+                        },
+                      )
+                    : _buildFallbackWidget(),
               ),
               LeftSideText(
                 text: 'Category',
@@ -133,4 +138,21 @@ class MovieDetailPage extends StatelessWidget {
       )),
     );
   }
+}
+
+Widget _buildFallbackWidget() {
+  return Container(
+    height: 230,
+    color: Colors.grey[300],
+    child: Center(
+      child: Text(
+        'Image not available',
+        style: TextStyle(
+          color: Colors.black54,
+          fontSize: 12,
+        ),
+        textAlign: TextAlign.center,
+      ),
+    ),
+  );
 }

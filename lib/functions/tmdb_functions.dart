@@ -74,3 +74,41 @@ class MovieService {
     }
   }
 }
+
+// Search Function
+
+Future<List> searchMovies(String query) async {
+  // Get API key from .env
+  final apiKey = dotenv.env['TMDBKEY'];
+
+  // Ensure apiKey is not null or empty
+  if (apiKey == null || apiKey.isEmpty) {
+    throw Exception('API key not found. Check your .env file.');
+  }
+
+  // URL for the search endpoint with the query and API key
+  final url = Uri.parse(
+    'https://api.themoviedb.org/3/search/movie?api_key=$apiKey&query=${Uri.encodeComponent(query)}',
+  );
+
+  // Send the GET request to TMDB
+  final response = await http.get(url);
+
+  // Check if the response is successful
+  if (response.statusCode == 200) {
+    final data = json.decode(response.body);
+
+    // Filter out movies with null or empty values in 'poster_path' or 'backdrop_path'
+    final filteredResults = data['results']
+        .where((movie) =>
+            movie['poster_path'] != null &&
+            movie['poster_path'].isNotEmpty &&
+            movie['backdrop_path'] != null &&
+            movie['backdrop_path'].isNotEmpty)
+        .toList();
+
+    return filteredResults; // Return the filtered list of search results
+  } else {
+    throw Exception('Failed to load search results');
+  }
+}

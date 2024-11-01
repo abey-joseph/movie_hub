@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:movie_hub/functions/tmdb_functions.dart';
+import 'package:movie_hub/res/movie_detail_class.dart';
+import 'package:movie_hub/tiles/movie_tile.dart';
+//import 'package:movie_hub/tiles/movie_tile_in_search.dart'; // Import your MovieTileInSearch widget
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -9,36 +13,31 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
-  List<String> items = [
-    "Apple",
-    "Banana",
-    "Orange",
-    "Peach",
-    "Grapes",
-    "Pineapple"
-  ];
-  List<String> filteredItems = [];
+  List movies = [];
 
   @override
   void initState() {
     super.initState();
     _searchController.addListener(() {
-      filterResults();
-    });
-    filteredItems = items;
-  }
-
-  void filterResults() {
-    String searchText = _searchController.text.toLowerCase();
-    setState(() {
-      if (searchText.isEmpty) {
-        filteredItems = items;
+      if (_searchController.text.isNotEmpty) {
+        fetchSearchResults(_searchController.text);
       } else {
-        filteredItems = items
-            .where((item) => item.toLowerCase().contains(searchText))
-            .toList();
+        setState(() {
+          movies = [];
+        });
       }
     });
+  }
+
+  Future<void> fetchSearchResults(String query) async {
+    try {
+      final results = await searchMovies(query);
+      setState(() {
+        movies = results;
+      });
+    } catch (e) {
+      print('Error fetching search results: $e');
+    }
   }
 
   @override
@@ -63,17 +62,44 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: filteredItems.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(filteredItems[index]),
-                );
-              },
-            ),
+            child: _searchController.text.isEmpty
+                ? Center(child: Text('Enter a movie name to search'))
+                : movies.isEmpty
+                    ? Center(child: CircularProgressIndicator())
+                    : GridView.builder(
+                        scrollDirection:
+                            Axis.horizontal, // Set to horizontal scrolling
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3, // 3 rows
+                          mainAxisSpacing: 3,
+                          crossAxisSpacing: 3,
+                          childAspectRatio:
+                              220 / 150, // Match card aspect ratio
+                        ),
+                        itemCount: movies.length,
+                        itemBuilder: (context, index) {
+                          final movieData = movies[index];
+                          final movie = Movie(
+                            movieData['title'] ?? 'No Title',
+                            'https://image.tmdb.org/t/p/w500${movieData['poster_path']}',
+                            'https://image.tmdb.org/t/p/w500${movieData['backdrop_path']}',
+                          );
+                          return MovieTileInSearch(
+                            movie: movie,
+                            tag: movieData['id']
+                                .toString(), // Use the movie ID as the tag
+                          );
+                        },
+                      ),
           ),
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 }
