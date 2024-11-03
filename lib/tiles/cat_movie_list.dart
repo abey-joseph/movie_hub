@@ -36,6 +36,7 @@ class CatMovieList extends StatelessWidget {
                   child: MovieTile(
                     tag: "$tag$index",
                     movie: Movie(
+                      movieList[index]['id'].toString(),
                       movieList[index]['title'],
                       movieList[index]['posterPath'],
                       movieList[index]['backdropPath'],

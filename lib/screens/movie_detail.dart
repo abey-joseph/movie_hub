@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:movie_hub/functions/tmdb_functions.dart';
 import 'package:movie_hub/res/movie_detail_class.dart';
 import 'package:movie_hub/tiles/left_side_text.dart';
 import 'package:movie_hub/tiles/movie_tile.dart';
@@ -14,6 +16,12 @@ class MovieDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> backDrops = [];
+
+    Future backDropList() async {
+      backDrops = await fetchBackdropImages(int.parse(movie.id));
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -32,16 +40,12 @@ class MovieDetailPage extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 10),
-                child: movie.backDrop != null && movie.backDrop!.isNotEmpty
-                    ? Image.network(
-                        movie.backDrop,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          // Display a placeholder widget if the image fails to load
-                          return _buildFallbackWidget();
-                        },
-                      )
-                    : _buildFallbackWidget(),
+                child: FutureBuilder(
+                  future: backDropList(),
+                  builder: (context, snapshot) {
+                    return MovieBackdropCarousel(backdrops: backDrops);
+                  },
+                ),
               ),
               LeftSideText(
                 text: 'Category',
@@ -155,4 +159,38 @@ Widget _buildFallbackWidget() {
       ),
     ),
   );
+}
+
+class MovieBackdropCarousel extends StatelessWidget {
+  final List<String> backdrops;
+
+  const MovieBackdropCarousel({Key? key, required this.backdrops})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return backdrops.isNotEmpty
+        ? CarouselSlider(
+            options: CarouselOptions(
+              height: 230,
+              autoPlay: true,
+              enlargeCenterPage: true,
+              viewportFraction: 1.0,
+            ),
+            items: backdrops.map((backdropUrl) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Image.network(
+                    backdropUrl,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return _buildFallbackWidget();
+                    },
+                  );
+                },
+              );
+            }).toList(),
+          )
+        : _buildFallbackWidget();
+  }
 }

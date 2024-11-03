@@ -30,7 +30,7 @@ class MovieTile extends StatelessWidget {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: movie.poster != null && movie.poster!.isNotEmpty
+            child: movie.poster.isNotEmpty
                 ? Image.network(
                     movie.poster,
                     fit: BoxFit.cover,
@@ -65,7 +65,7 @@ class MovieTileInDetail extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          child: imageUrl != null && imageUrl!.isNotEmpty
+          child: imageUrl.isNotEmpty
               ? Image.network(
                   imageUrl,
                   fit: BoxFit.cover,
@@ -110,7 +110,7 @@ class MovieTileInSearch extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: movie.poster != null && movie.poster!.isNotEmpty
+              child: movie.poster.isNotEmpty
                   ? Image.network(
                       movie.poster,
                       fit: BoxFit.cover,
@@ -131,7 +131,7 @@ class MovieTileInSearch extends StatelessWidget {
 Widget _buildFallbackWidget() {
   return Container(
     color: Colors.grey[300],
-    child: Center(
+    child: const Center(
       child: Text(
         'Image not available',
         style: TextStyle(

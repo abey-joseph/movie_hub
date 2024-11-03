@@ -112,3 +112,25 @@ Future<List> searchMovies(String query) async {
     throw Exception('Failed to load search results');
   }
 }
+
+Future<List<String>> fetchBackdropImages(int movieId) async {
+  final String apiKey = dotenv.env['TMDBKEY'] ?? '';
+  final url =
+      'https://api.themoviedb.org/3/movie/$movieId/images?api_key=$apiKey';
+
+  final response = await http.get(Uri.parse(url));
+
+  if (response.statusCode == 200) {
+    final data = json.decode(response.body);
+
+    // Extract the file paths for backdrops
+    List<String> backdrops = (data['backdrops'] as List)
+        .map((backdrop) =>
+            'https://image.tmdb.org/t/p/w500${backdrop['file_path']}')
+        .toList();
+
+    return backdrops;
+  } else {
+    throw Exception('Failed to load backdrop images');
+  }
+}

@@ -63,13 +63,14 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           Expanded(
             child: _searchController.text.isEmpty
-                ? Center(child: Text('Enter a movie name to search'))
+                ? const Center(child: Text('Enter a movie name to search'))
                 : movies.isEmpty
-                    ? Center(child: CircularProgressIndicator())
+                    ? const Center(child: CircularProgressIndicator())
                     : GridView.builder(
                         scrollDirection:
                             Axis.horizontal, // Set to horizontal scrolling
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3, // 3 rows
                           mainAxisSpacing: 3,
                           crossAxisSpacing: 3,
@@ -80,6 +81,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         itemBuilder: (context, index) {
                           final movieData = movies[index];
                           final movie = Movie(
+                            movieData['id'],
                             movieData['title'] ?? 'No Title',
                             'https://image.tmdb.org/t/p/w500${movieData['poster_path']}',
                             'https://image.tmdb.org/t/p/w500${movieData['backdrop_path']}',

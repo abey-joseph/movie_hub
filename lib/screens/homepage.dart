@@ -20,9 +20,9 @@ class HomePage extends StatelessWidget {
       future: movieService.fetchAllMovies(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(child: Text('Error loading movies'));
+          return const Center(child: Text('Error loading movies'));
         } else {
           return Scaffold(
             backgroundColor: Colors.white,
@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
                           onPressed: () {
                             Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (context) {
-                              return SearchScreen();
+                              return const SearchScreen();
                             }));
                           },
                         ),
