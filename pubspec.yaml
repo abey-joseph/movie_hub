@@ -39,6 +39,8 @@ dependencies:
   flutter_dotenv: ^5.2.1
   http: ^1.2.2
   carousel_slider: ^5.0.0
+  cached_network_image: ^3.4.1
+  flutter_cache_manager: ^3.4.1
   
 
 dev_dependencies:

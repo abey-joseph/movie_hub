@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:movie_hub/functions/cache_manager.dart';
 import 'package:movie_hub/functions/tmdb_functions.dart';
 import 'package:movie_hub/res/movie_detail_class.dart';
 import 'package:movie_hub/tiles/left_side_text.dart';
@@ -164,8 +166,7 @@ Widget _buildFallbackWidget() {
 class MovieBackdropCarousel extends StatelessWidget {
   final List<String> backdrops;
 
-  const MovieBackdropCarousel({Key? key, required this.backdrops})
-      : super(key: key);
+  const MovieBackdropCarousel({super.key, required this.backdrops});
 
   @override
   Widget build(BuildContext context) {
@@ -180,10 +181,11 @@ class MovieBackdropCarousel extends StatelessWidget {
             items: backdrops.map((backdropUrl) {
               return Builder(
                 builder: (BuildContext context) {
-                  return Image.network(
-                    backdropUrl,
+                  return CachedNetworkImage(
+                    imageUrl: backdropUrl,
+                    cacheManager: CustomCacheManager.instance,
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
+                    errorWidget: (context, error, stackTrace) {
                       return _buildFallbackWidget();
                     },
                   );
