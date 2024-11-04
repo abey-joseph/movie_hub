@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class Rating extends StatelessWidget {
-  const Rating({super.key});
+  final double rating; // Rating out of 10
+
+  Rating({required this.rating});
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Container(
-        padding: const EdgeInsets.only(top: 11),
-        width: MediaQuery.of(context).size.width - 164,
-        height: 30,
-        child: Row(
-          children: [
-            Image.network(
-                height: 30,
-                width: 100,
-                fit: BoxFit.cover,
-                "https://static.vecteezy.com/system/resources/thumbnails/009/663/927/small/5-star-rating-review-star-transparent-free-png.png"),
-            Expanded(child: Container())
-          ],
+    return SizedBox(
+      width: MediaQuery.of(context).size.width - 164,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 11, left: 10),
+        child: RatingBarIndicator(
+          rating: rating / 2,
+          itemBuilder: (context, index) => Icon(
+            Icons.star,
+            color: Colors.amber,
+            size: 4,
+          ),
+          itemCount: 5,
+          itemSize: 18,
+          direction: Axis.horizontal,
         ),
       ),
     );

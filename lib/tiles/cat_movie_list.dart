@@ -32,14 +32,17 @@ class CatMovieList extends StatelessWidget {
               itemCount: 10,
               itemBuilder: (context, index) {
                 return Hero(
-                  tag: "$tag$index", // Unique tag based on the movie ID
+                  tag: "$tag$index", // Unique tag
                   child: MovieTile(
                     tag: "$tag$index",
                     movie: Movie(
-                      movieList[index]['id'].toString(),
-                      movieList[index]['title'],
-                      movieList[index]['posterPath'],
-                      movieList[index]['backdropPath'],
+                      id: movieList[index]['id'],
+                      title: movieList[index]['title'],
+                      poster: movieList[index]['posterPath'],
+                      backDrop: movieList[index]['backdropPath'],
+                      overView: movieList[index]["overview"],
+                      year: movieList[index]["release_date"],
+                      rating: movieList[index]["vote_average"],
                     ),
                   ),
                 );

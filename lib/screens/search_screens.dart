@@ -82,11 +82,15 @@ class _SearchScreenState extends State<SearchScreen> {
                         itemBuilder: (context, index) {
                           final movieData = movies[index];
                           final movie = Movie(
-                            movieData['id'].toString(),
-                            movieData['title'] ?? 'No Title',
-                            'https://image.tmdb.org/t/p/w500${movieData['poster_path']}',
-                            'https://image.tmdb.org/t/p/w500${movieData['backdrop_path']}',
-                          );
+                              id: movieData['id'],
+                              title: movieData['title'] ?? 'No Title',
+                              poster:
+                                  'https://image.tmdb.org/t/p/w500${movieData['poster_path']}',
+                              backDrop:
+                                  'https://image.tmdb.org/t/p/w500${movieData['backdrop_path']}',
+                              overView: movieData["overview"],
+                              year: movieData["release_date"],
+                              rating: movieData["vote_average"]);
                           return MovieTileInSearch(
                             movie: movie,
                             tag: movieData['id']

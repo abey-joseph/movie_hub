@@ -21,7 +21,7 @@ class MovieDetailPage extends StatelessWidget {
     List<String> backDrops = [];
 
     Future backDropList() async {
-      backDrops = await fetchBackdropImages(int.parse(movie.id));
+      backDrops = await fetchBackdropImages(movie.id);
     }
 
     return Scaffold(
@@ -52,13 +52,17 @@ class MovieDetailPage extends StatelessWidget {
               LeftSideText(
                 text: 'Category',
               ),
-              LeftSideText(text: "year"),
+              LeftSideText(text: movie.year),
               LeftSideText(text: "Run Time"),
-              Rating(),
+              Padding(
+                padding: const EdgeInsets.only(left: 160),
+                child: Rating(
+                  rating: movie.rating,
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(25.0),
-                child: Text(
-                    "A listless Wade Wilson toils away in civilian life with his days as the morally flexible mercenary, Deadpool, behind him. But when his homeworld faces an existential threat, Wade must reluctantly suit-up again with an even more reluctant Wolverine."),
+                child: Text(movie.overView),
               ),
               Padding(
                   padding: EdgeInsets.only(left: 25, right: 25, bottom: 4),
