@@ -24,11 +24,11 @@ class MovieDetailPage extends StatelessWidget {
         movie.id); // Use movie.id to fetch details
   }
 
-  List<String> backDrops = []; // List to store backdrop images
+  //List<String> backDrops = []; // List to store backdrop images
 
   // Function to fetch backdrops; this remains unchanged
-  Future backDropList() async {
-    backDrops = await fetchBackdropImages(movie.id);
+  Future<List<String>> backDropList() async {
+    return await fetchBackdropImages(movie.id);
   }
 
   @override
@@ -82,7 +82,8 @@ class MovieDetailPage extends StatelessWidget {
                       child: FutureBuilder(
                         future: backDropList(),
                         builder: (context, snapshot) {
-                          return MovieBackdropCarousel(backdrops: backDrops);
+                          return MovieBackdropCarousel(
+                              backdrops: snapshot.data!);
                         },
                       ),
                     ),
