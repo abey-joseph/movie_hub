@@ -2,6 +2,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:movie_hub/res/adv_movie_detail_class.dart';
+
 class MovieService {
   static final MovieService _instance = MovieService._internal();
   factory MovieService() => _instance;
@@ -132,4 +134,88 @@ Future<List<String>> fetchBackdropImages(int movieId) async {
   } else {
     throw Exception('Failed to load backdrop images');
   }
+}
+
+Future<AdvMovie> fetchAdvMovieDetails(int movieId) async {
+  final apiKey = dotenv.env['TMDBKEY'] ?? '';
+
+  // Fetch basic movie details
+  final detailsUrl =
+      'https://api.themoviedb.org/3/movie/$movieId?api_key=$apiKey';
+  final detailsResponse = await http.get(Uri.parse(detailsUrl));
+
+  if (detailsResponse.statusCode != 200) {
+    throw Exception('Failed to load movie details');
+  }
+
+  final detailsData = json.decode(detailsResponse.body);
+
+  // Fetch movie credits (cast and crew)
+  final creditsUrl =
+      'https://api.themoviedb.org/3/movie/$movieId/credits?api_key=$apiKey';
+  final creditsResponse = await http.get(Uri.parse(creditsUrl));
+
+  if (creditsResponse.statusCode != 200) {
+    throw Exception('Failed to load movie credits');
+  }
+
+  final creditsData = json.decode(creditsResponse.body);
+
+  // Parse basic details
+  final int id = detailsData['id'];
+  final String title = detailsData['title'] ?? 'Unknown Title';
+  final String poster =
+      'https://image.tmdb.org/t/p/w500${detailsData['poster_path']}';
+  final String backDrop =
+      'https://image.tmdb.org/t/p/w500${detailsData['backdrop_path']}';
+  final String overView = detailsData['overview'] ?? '';
+  final String year = (detailsData['release_date'] ?? '').split('-').first;
+  final double rating = (detailsData['vote_average'] ?? 0).toDouble();
+  final double runTime = (detailsData['runtime'] ?? 0).toDouble();
+  final String language = detailsData['original_language'] ?? 'Unknown';
+
+  // Parse genres (categories) into a single comma-separated string
+  final String category =
+      (detailsData['genres'] as List).map((genre) => genre['name']).join(', ');
+
+  // Parse starring (top 5 cast members)
+  final List<String> starring = (creditsData['cast'] as List)
+      .take(5)
+      .map((member) => member['name'] as String)
+      .toList();
+
+  // Parse directors, producers, and writers from the crew data
+  final List<String> directors = (creditsData['crew'] as List)
+      .where((member) => member['job'] == 'Director')
+      .map((member) => member['name'] as String)
+      .toList();
+
+  final List<String> producers = (creditsData['crew'] as List)
+      .where((member) => member['job'] == 'Producer')
+      .map((member) => member['name'] as String)
+      .toList();
+
+  final List<String> writers = (creditsData['crew'] as List)
+      .where((member) =>
+          member['job'] == 'Writer' || member['job'] == 'Screenplay')
+      .map((member) => member['name'] as String)
+      .toList();
+
+  // Create and return an AdvMovie object with all the gathered information
+  return AdvMovie(
+    id: id,
+    title: title,
+    poster: poster,
+    backDrop: backDrop,
+    overView: overView,
+    year: year,
+    rating: rating,
+    runTime: runTime,
+    language: language,
+    category: category,
+    starring: starring,
+    directors: directors,
+    producers: producers,
+    writers: writers,
+  );
 }
