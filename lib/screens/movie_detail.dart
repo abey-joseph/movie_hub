@@ -8,6 +8,7 @@ import 'package:movie_hub/functions/cache_manager.dart';
 import 'package:movie_hub/functions/tmdb_functions.dart';
 import 'package:movie_hub/res/movie_detail_class.dart';
 import 'package:movie_hub/tiles/left_side_text.dart';
+import 'package:movie_hub/tiles/movie_backdrop_carousel.dart';
 import 'package:movie_hub/tiles/movie_tile.dart';
 import 'package:movie_hub/tiles/rating.dart';
 
@@ -147,56 +148,5 @@ class MovieDetailPage extends StatelessWidget {
         ],
       )),
     );
-  }
-}
-
-Widget _buildFallbackWidget() {
-  return Container(
-    height: 230,
-    color: Colors.grey[300],
-    child: Center(
-      child: Text(
-        'Image not available',
-        style: TextStyle(
-          color: Colors.black54,
-          fontSize: 12,
-        ),
-        textAlign: TextAlign.center,
-      ),
-    ),
-  );
-}
-
-class MovieBackdropCarousel extends StatelessWidget {
-  final List<String> backdrops;
-
-  const MovieBackdropCarousel({super.key, required this.backdrops});
-
-  @override
-  Widget build(BuildContext context) {
-    return backdrops.isNotEmpty
-        ? CarouselSlider(
-            options: CarouselOptions(
-              height: 230,
-              autoPlay: true,
-              enlargeCenterPage: true,
-              viewportFraction: 1.0,
-            ),
-            items: backdrops.map((backdropUrl) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return CachedNetworkImage(
-                    imageUrl: backdropUrl,
-                    cacheManager: CustomCacheManager.instance,
-                    fit: BoxFit.cover,
-                    errorWidget: (context, error, stackTrace) {
-                      return _buildFallbackWidget();
-                    },
-                  );
-                },
-              );
-            }).toList(),
-          )
-        : _buildFallbackWidget();
   }
 }

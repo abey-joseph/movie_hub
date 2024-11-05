@@ -98,7 +98,7 @@ CachedNetworkImage ImageLoader(String poster) {
     cacheManager: CustomCacheManager.instance,
     fit: BoxFit.cover,
     placeholder: (context, url) => Container(color: Colors.grey[300]),
-    fadeInDuration: Duration(milliseconds: 500),
+    fadeInDuration: const Duration(milliseconds: 500),
     errorWidget: (context, error, stackTrace) {
       // Display a placeholder widget if the image fails to load
       return _buildFallbackWidget();

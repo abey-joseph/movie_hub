@@ -4,7 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class Rating extends StatelessWidget {
   final double rating; // Rating out of 10
 
-  Rating({required this.rating});
+  const Rating({super.key, required this.rating});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class Rating extends StatelessWidget {
         padding: const EdgeInsets.only(top: 11, left: 10),
         child: RatingBarIndicator(
           rating: rating / 2,
-          itemBuilder: (context, index) => Icon(
+          itemBuilder: (context, index) => const Icon(
             Icons.star,
             color: Colors.amber,
             size: 4,

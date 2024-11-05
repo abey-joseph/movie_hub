@@ -1,7 +1,7 @@
 //import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:movie_hub/functions/tmdb_functions.dart';
+//import 'package:movie_hub/functions/tmdb_functions.dart';
 import 'package:movie_hub/res/movie_detail_class.dart';
 import 'package:movie_hub/tiles/movie_tile.dart';
 
@@ -12,16 +12,6 @@ class CatMovieList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final movieService = MovieService();
-
-    // for (var movie in movieList) {
-    //   print("ID: ${movie['id']}");
-    //   print("Title: ${movie['title']}");
-    //   print("Poster Path: ${movie['posterPath']}");
-    //   print("Backdrop Path: ${movie['backdropPath']}");
-    //   print('---------------------'); // Separator for each movie
-    // }
-
     return SliverToBoxAdapter(
       child: Padding(
           padding: const EdgeInsets.only(left: 16),
