@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_hub/functions/tmdb_functions.dart';
 import 'package:movie_hub/res/colors.dart';
@@ -27,19 +28,19 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(seconds: 1));
 
     // Ensure the widget is still in the tree before proceeding
+    final user = FirebaseAuth.instance.currentUser;
+
     if (!mounted) return;
 
-    //check if login or not - if login already then change the variable login to true and vice versa
-
-    // Navigate to the HomePage after login is set to true or false
-
-    if (login) {
+    if (user != null) {
+      // User is logged in
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const HomePage()),
       );
     } else {
+      // User is not logged in
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        MaterialPageRoute(builder: (context) => LoginScreen()),
       );
     }
   }

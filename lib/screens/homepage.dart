@@ -1,16 +1,43 @@
 //import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_hub/functions/tmdb_functions.dart';
 import 'package:movie_hub/res/app_bar_pattern.dart';
 import 'package:movie_hub/res/cat_heading_text.dart';
 import 'package:movie_hub/res/colors.dart';
+import 'package:movie_hub/screens/login_screen.dart';
 import 'package:movie_hub/screens/search_screens.dart';
 import 'package:movie_hub/tiles/cat_movie_list.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<void> logout() async {
+    try {
+      await _auth.signOut();
+
+      // Navigate the user back to the login screen
+      if (!mounted) return;
+
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Error signing out: $e')));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,11 +89,13 @@ class HomePage extends StatelessWidget {
                     elevation: 0,
                     surfaceTintColor: Colors.transparent,
                     //shadowColor: Colors.transparent,
-                    leading: const Padding(
+                    leading: Padding(
                       padding: EdgeInsets.only(left: 20),
-                      child: Icon(
-                        Icons.account_circle,
-                        size: 35,
+                      child: IconButton(
+                        onPressed: () {
+                          logout();
+                        },
+                        icon: Icon(Icons.account_circle),
                         color: Colors.black,
                       ),
                     ),

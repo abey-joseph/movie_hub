@@ -1,16 +1,50 @@
 import 'dart:math';
 //import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_hub/res/app_bar_pattern.dart';
 import 'package:movie_hub/res/colors.dart';
 import 'package:movie_hub/screens/homepage.dart';
 
-class LoginScreen extends StatelessWidget {
-  final Color lightGreen = const Color(0xFFA8E6CF); // Light green
+class LoginScreen extends StatefulWidget {
+  LoginScreen({super.key});
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final Color lightGreen = const Color(0xFFA8E6CF);
+  // Light green
   final Color lightYellow = const Color(0xFFFFF9C4);
 
-  const LoginScreen({super.key}); // Light yellow
+  final TextEditingController emailController = TextEditingController();
+
+  final TextEditingController passwordController = TextEditingController();
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  // Light yellow
+  Future<void> login() async {
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+
+      // Check if the widget is still mounted before navigating
+      if (!mounted) return;
+
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const HomePage())); // Navigate to HomePage
+    } catch (e) {
+      if (mounted) {
+        // Ensure the widget is mounted before showing a Snackbar
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(e.toString())));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +97,10 @@ class LoginScreen extends StatelessWidget {
                     child: ListView(
                       children: [
                         const SizedBox(height: 40.0),
+
                         // Email TextField
                         TextField(
+                          controller: emailController,
                           decoration: InputDecoration(
                             labelText: 'Email',
                             prefixIcon: const Icon(Icons.email,
@@ -75,8 +111,10 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 16.0),
+
                         // Password TextField
                         TextField(
+                          controller: passwordController,
                           decoration: InputDecoration(
                             labelText: 'Password',
                             prefixIcon: const Icon(Icons.lock,
@@ -87,13 +125,13 @@ class LoginScreen extends StatelessWidget {
                           ),
                           obscureText: true,
                         ),
+
                         const SizedBox(height: 32.0),
                         // Login Button
                         ElevatedButton(
                           onPressed: () {
                             // Handle login logic
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const HomePage()));
+                            login();
                           },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
