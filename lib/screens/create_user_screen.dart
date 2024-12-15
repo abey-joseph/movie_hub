@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_hub/res/app_bar_pattern.dart';
 import 'package:movie_hub/res/colors.dart';
 import 'package:movie_hub/screens/homepage.dart';
+import 'package:movie_hub/screens/login_screen.dart';
 
 class CreateUserScreen extends StatefulWidget {
   const CreateUserScreen({super.key});
@@ -111,7 +112,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                         const AnimatedLock(),
                         const SizedBox(height: 16.0),
                         Text(
-                          'Welcome Back!',
+                          'Welcome!',
                           style: TextStyle(
                             fontSize: 24.0,
                             fontWeight: FontWeight.bold,
@@ -146,7 +147,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                           obscureText: true,
                         ),
 
-                        const SizedBox(height: 20.0),
+                        const SizedBox(height: 10.0),
 
                         //phone Number
                         TextField(
@@ -162,7 +163,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                           obscureText: true,
                         ),
 
-                        const SizedBox(height: 20.0),
+                        const SizedBox(height: 10.0),
 
                         // Email TextField
                         TextField(
@@ -176,7 +177,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 16.0),
+                        const SizedBox(height: 10.0),
 
                         // Password TextField
                         TextField(
@@ -213,6 +214,26 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                           child: const Text('Sign Up'),
                         ),
                         const SizedBox(height: 16.0),
+                        ElevatedButton(
+                          onPressed: () {
+                            // go back to login
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: AppColors.greenPrimary,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 80.0, vertical: 16.0),
+                            textStyle: const TextStyle(
+                                fontSize: 18.0, fontWeight: FontWeight.bold),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                          child: const Text('Log In'),
+                        ),
 
                         //button to test firestore connection
 
