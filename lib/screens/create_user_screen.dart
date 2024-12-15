@@ -1,48 +1,81 @@
 import 'dart:math';
-//import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_hub/res/app_bar_pattern.dart';
 import 'package:movie_hub/res/colors.dart';
-import 'package:movie_hub/screens/create_user_screen.dart';
 import 'package:movie_hub/screens/homepage.dart';
 
-class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+class CreateUserScreen extends StatefulWidget {
+  const CreateUserScreen({super.key});
+
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<CreateUserScreen> createState() => _CreateUserScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _CreateUserScreenState extends State<CreateUserScreen> {
   final Color lightGreen = const Color(0xFFA8E6CF);
   // Light green
   final Color lightYellow = const Color(0xFFFFF9C4);
 
-  final TextEditingController emailController = TextEditingController();
-
-  final TextEditingController passwordController = TextEditingController();
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Light yellow
-  Future<void> login() async {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+
+  Future<void> signUp() async {
     try {
-      await _auth.signInWithEmailAndPassword(
+      // Create user with Firebase Authentication
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
 
-      // Check if the widget is still mounted before navigating
+      // Get the user ID (UID)
+      String uid = userCredential.user!.uid;
+
+      // Save additional user details in Firestore
+      await _firestore.collection('users').doc(uid).set({
+        'name': nameController.text.trim(),
+        'email': emailController.text.trim(),
+        'phone': phoneController.text.trim(),
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+
+      // Navigate to HomePage
       if (!mounted) return;
 
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const HomePage())); // Navigate to HomePage
     } catch (e) {
+      String errorMessage;
+      if (e is FirebaseAuthException) {
+        switch (e.code) {
+          case 'email-already-in-use':
+            errorMessage = "This email is already in use.";
+            break;
+          case 'weak-password':
+            errorMessage = "The password is too weak.";
+            break;
+          case 'invalid-email':
+            errorMessage = "The email address is invalid.";
+            break;
+          default:
+            errorMessage = "An unknown error occurred.";
+        }
+      } else {
+        errorMessage = e.toString();
+      }
+
       if (mounted) {
-        // Ensure the widget is mounted before showing a Snackbar
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Invalid username or passsword")));
+          SnackBar(content: Text(errorMessage)),
+        );
       }
     }
   }
@@ -97,7 +130,39 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 32.0),
                     child: ListView(
                       children: [
-                        const SizedBox(height: 40.0),
+                        const SizedBox(height: 10.0),
+
+                        //Name
+                        TextField(
+                          controller: nameController,
+                          decoration: InputDecoration(
+                            labelText: 'Name',
+                            prefixIcon: const Icon(Icons.face,
+                                color: AppColors.greenPrimary),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: lightGreen),
+                            ),
+                          ),
+                          obscureText: true,
+                        ),
+
+                        const SizedBox(height: 20.0),
+
+                        //phone Number
+                        TextField(
+                          controller: phoneController,
+                          decoration: InputDecoration(
+                            labelText: 'Phone',
+                            prefixIcon: const Icon(Icons.phone,
+                                color: AppColors.greenPrimary),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: lightGreen),
+                            ),
+                          ),
+                          obscureText: true,
+                        ),
+
+                        const SizedBox(height: 20.0),
 
                         // Email TextField
                         TextField(
@@ -131,44 +196,59 @@ class _LoginScreenState extends State<LoginScreen> {
                         // Login Button
                         ElevatedButton(
                           onPressed: () {
-                            // Handle login logic
-                            login();
+                            // Handle Sign Up logic
+                            signUp();
                           },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
                             backgroundColor: AppColors.greenPrimary,
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 80.0, vertical: 16.0),
-                            textStyle: const TextStyle(fontSize: 18.0),
+                            textStyle: const TextStyle(
+                                fontSize: 18.0, fontWeight: FontWeight.bold),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0),
                             ),
                           ),
-                          child: const Text('Login'),
+                          child: const Text('Sign Up'),
                         ),
                         const SizedBox(height: 16.0),
+
+                        //button to test firestore connection
+
+                        // ElevatedButton(
+                        //   onPressed: () async {
+                        //     try {
+                        //       CollectionReference test =
+                        //           FirebaseFirestore.instance.collection('test');
+                        //       await test.add({'test': 'connection successful'});
+                        //       print('Firestore connection successful!');
+                        //     } catch (e) {
+                        //       print('Error: $e');
+                        //     }
+                        //   },
+                        //   child: Text("Test Firestore Connection"),
+                        // )
+
                         // Forgot Password
-                        TextButton(
-                          onPressed: () {
-                            // Navigate to forgot password screen
-                          },
-                          child: Text(
-                            'Forgot Password?',
-                            style: TextStyle(color: Colors.grey[600]),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            // Navigate to xreate user screen
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) => CreateUserScreen()));
-                          },
-                          child: Text(
-                            'Create a New Account?',
-                            style: TextStyle(color: Colors.grey[600]),
-                          ),
-                        ),
+                        // TextButton(
+                        //   onPressed: () {
+                        //     // Navigate to forgot password screen
+                        //   },
+                        //   child: Text(
+                        //     'Forgot Password?',
+                        //     style: TextStyle(color: Colors.grey[600]),
+                        //   ),
+                        // ),
+                        // TextButton(
+                        //   onPressed: () {
+                        //     // Navigate to forgot password screen
+                        //   },
+                        //   child: Text(
+                        //     'Create a New Account?',
+                        //     style: TextStyle(color: Colors.grey[600]),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
